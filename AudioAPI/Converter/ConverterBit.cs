@@ -10,14 +10,14 @@ namespace AudioAPI.Converter
         /// Converts a 7 bit byte[] to Decimal in 8 bit
         /// </summary>
         /// <param name="array">max allowed lenght is 8</param>
-        /// <param name="littleEndian">array has littleEndian pattern else false</param>
+        /// <param name="bigEndian">array has bigEndian pattern else false</param>
         /// <returns></returns>
-        public static ulong Bit7ToDecimal(byte[] array, bool littleEndian = true)
+        public static ulong Bit7ToDecimal(byte[] array, bool bigEndian = true)
         {
             if (array.Length > 8)
                 throw new ArgumentOutOfRangeException(nameof(array), "Array can't be larger then 8");
 
-            if (!littleEndian)
+            if (!bigEndian)
                 Array.Reverse(array);
 
             ulong size = 0;
@@ -32,10 +32,10 @@ namespace AudioAPI.Converter
         /// Converts a ulong decimal number to 7 bits and return the byte[8] array
         /// </summary>
         /// <param name="size">max value allowed 72.057.594.037.927.935</param>
-        /// <param name="littleEndian">return as littleEndian true or false for bigEndian</param>
+        /// <param name="bigEndian">return as bigEndian true or false for littleEndian</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static byte[] SizeTo7Bit(ulong size, bool littleEndian = true)
+        public static byte[] SizeTo7Bit(ulong size, bool bigEndian = true)
         {
             if (size > 72057594037927935) // Max Value for 8x7 bit
                 throw new ArgumentOutOfRangeException(nameof(size), "size can't be higher then 72.057.594.037.927.935");
@@ -49,7 +49,7 @@ namespace AudioAPI.Converter
                 // move 7 bits to right
                 size >>= 7;
             }
-            if (!littleEndian)
+            if (!bigEndian)
                 Array.Reverse(bytes);
             return bytes;
         }
@@ -59,15 +59,15 @@ namespace AudioAPI.Converter
         /// </summary>
         /// <param name="array">the array to short</param>
         /// <param name="lenght">new byte[]size</param>
-        /// <param name="littleEndian">array has littleEndian pattern else false</param>
+        /// <param name="bigEndian">array has bigEndian pattern else false</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static byte[] ShortByteArray(byte[] array, int lenght, bool littleEndian = true)
+        public static byte[] ShortByteArray(byte[] array, int lenght, bool bigEndian = true)
         {
             if (lenght >= array.Length)
                 throw new ArgumentOutOfRangeException(nameof(lenght), "Lenght can't be greater or equal of bytearray size");
 
-            if (!littleEndian)
+            if (!bigEndian)
                 Array.Reverse(array);
 
             byte[] byteArray = new byte[lenght];
@@ -76,7 +76,7 @@ namespace AudioAPI.Converter
                 byteArray[byteArray.Length - i] = array[array.Length - i];
             }
 
-            if (!littleEndian)
+            if (!bigEndian)
                 Array.Reverse(array);
 
             return byteArray;
@@ -134,7 +134,7 @@ namespace AudioAPI.Converter
             string number = string.Empty;
             for (int i = startIndex; i < startIndex + lenght; i++)
             {
-                number += (char)list[i];
+                number += list[i];
             }
             return Convert.ToInt32(number);
         }
@@ -153,7 +153,8 @@ namespace AudioAPI.Converter
             string number = string.Empty;
             for (int i = startIndex; i < startIndex + lenght; i++)
             {
-                number += (char)array[i];
+                
+                number += array[i];
             }
             return Convert.ToInt32(number);
         }

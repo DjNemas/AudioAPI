@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AudioAPI.Types.MP3
+namespace AudioAPI.Types.Metadata
 {
-    public struct ID3v1
+    /// <summary>
+    /// Class of ID3v1
+    /// </summary>
+    public class ID3v1
     {
+        // Publics with getter setter
         public string Indentifier { get; private set; }
-
-        private string? _title;
         public string? Title
         {
             get => _title;
@@ -22,9 +24,6 @@ namespace AudioAPI.Types.MP3
                     _title = value;
             }
         }
-
-
-        private string? _artist;
         public string? Artist
         {
             get => _artist;
@@ -36,9 +35,6 @@ namespace AudioAPI.Types.MP3
                     _artist = value;
             }
         }
-
-
-        private string? _album;
         public string? Album
         {
             get => _album;
@@ -51,8 +47,6 @@ namespace AudioAPI.Types.MP3
             }
         }
         public int? Year { get; set; }
-
-        private string? _comentary;
         public string? Comentary
         {
             get => _comentary;
@@ -64,20 +58,25 @@ namespace AudioAPI.Types.MP3
                     _comentary = value;
             }
         }
-        private byte _trackNumberZero;
-
-        private byte _trackNumber;
-        public byte TrackNumber 
+        public byte TrackNumber
         {
             get => _trackNumber;
             set
             {
                 _trackNumberZero = 0;
                 _trackNumber = value;
-            } 
-        
+            }
+
         }
         public ID3v1Genre? Genre { get; set; }
+
+        // Privates
+        private string? _title;
+        private string? _artist;
+        private string? _album;
+        private string? _comentary;
+        private byte _trackNumberZero;
+        private byte _trackNumber;
 
         public ID3v1()
         {
@@ -91,62 +90,6 @@ namespace AudioAPI.Types.MP3
             _trackNumber = 0;
             Genre = null;
         }
-    }
-
-    public struct ID3v2
-    {
-        public string Indentifier { get; private set; }
-        public ID3v2Version MajorVersion;
-        public byte MinorVersion;
-        public ID3v2Flag Flag;
-
-        private byte[] _size;
-        public byte[] Size
-        {
-            get => _size;
-            set
-            {
-                if (value.Length != 4)
-                    throw new ArgumentOutOfRangeException("Size", "sbyte[].Lenght has to be 4");
-                _size = value;
-            }
-        }
-
-        public ID3v2()
-        {
-            Indentifier = "ID3";
-            MajorVersion = ID3v2Version.Version2;
-            MinorVersion = 0;
-            Flag = ID3v2Flag.None;
-            _size = new byte[4];
-        }
-    }
-
-    public class ID3
-    {
-        public ID3v1 ID3v1;
-        public ID3v2 ID3v2;
-
-        public ID3()
-        {
-            ID3v1 = new ID3v1();
-            ID3v2 = new ID3v2();
-        }
-    }
-
-    public enum ID3v2Flag
-    {
-        Unsynchronisation = 80,
-        Extended = 40,
-        Experimental = 20,
-        None = 0
-    }
-
-    public enum ID3v2Version
-    {
-        Version2 = 2,
-        Version3 = 3,
-        Version4 = 4
     }
 
     public enum ID3v1Genre
@@ -231,6 +174,121 @@ namespace AudioAPI.Types.MP3
         Musical,
         RockNRoll,
         HardRock,
+        // Extension by Winamp
+        Folk,
+        FolkRock,
+        NationalFolk,
+        Swing,
+        FastFusion,
+        Bebop,
+        Latin,
+        Revival,
+        Celtic,
+        Bluegrass,
+        Avantgarde,
+        GothicRock,
+        ProgressiveRock,
+        PsychedelicRock,
+        SymphonicRock,
+        SlowRock,
+        BigBand,
+        Chorus,
+        EasyListening,
+        Acoustic,
+        Humour,
+        Speech,
+        Chanson,
+        Opera,
+        ChamberMusic,
+        Sonata,
+        Symphony,
+        BootyBass,
+        Primus,
+        PornGroove,
+        Satire,
+        SlowJam,
+        Club,
+        Tango,
+        Samba,
+        Folklore,
+        Ballad,
+        PowerBallad,
+        RhythmicSoul,
+        Freestyle,
+        Duet,
+        PunkRock,
+        DrumSolo,
+        ACappella,
+        EuroHouse,
+        DanceHall,
+        GoaMusic,
+        DrumAndBass,
+        ClubHouse,
+        HardcoreTechno,
+        Terror,
+        Indie,
+        BritPop,
+        Negerpunk,
+        PolskPunk,
+        Beat,
+        ChristianGangstaRap,
+        HeavyMetal,
+        BlackMetal,
+        Crossover,
+        ContemporaryChristian,
+        ChristianRock,
+        // 142 to 147 (since 1 June 1998 [Winamp 1.91])
+        Merengue,
+        Salsa,
+        ThrashMetal,
+        Anime,
+        Jpop,
+        SynthPop,
+        // 148 to 191 (from November 2010, [Winamp 5.6])
+        Abstract,
+        ArtRock,
+        Baroque,
+        Bhangra,
+        BigBeat,
+        BreakBeat,
+        Chillout,
+        Downtempo,
+        Dub,
+        EBM,
+        Eclectic,
+        Electro,
+        Electroclash,
+        Emo,
+        Experimental,
+        Garage,
+        Global,
+        IDM,
+        Illbient,
+        IndustroGoth,
+        JamBand,
+        Krautrock,
+        Leftfield,
+        Lounge,
+        MathRock,
+        NewRomantic,
+        NuBreakz,
+        PostPunk,
+        PostRock,
+        Psytrance,
+        Shoegaze,
+        SpaceRock,
+        TropRock,
+        WorldMusic,
+        Neoclassical,
+        Audiobook,
+        AudioTheatre,
+        NeueDeutscheWelle,
+        Podcast,
+        IndieRock,
+        GFunk,
+        Dubstep,
+        GarageRock,
+        Psybient,
         None = 255
     }
 }
